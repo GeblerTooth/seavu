@@ -1,0 +1,12 @@
+# Python files
+__pycache__/
+.venv/
+venv/
+
+# Django files
+staticfiles/
+db.sqlite3
+migrations/
+
+# macOS files
+.DS_Store
