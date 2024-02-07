@@ -1,5 +1,7 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
+from .models import Computer
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the inventory index.")
+    computer_list = Computer.objects.all()
+    return render(request, "inventory/index.html", {"computer_list": computer_list})

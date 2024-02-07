@@ -1,0 +1,9 @@
+{% if computer_list %}
+    <ul>
+    {% for computer in computer_list %}
+        <li>{{ computer.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No computers are available.</p>
+{% endif %}

@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Employee, Computer, Software, ComputerSoftware
+
+admin.site.register({Employee, Computer, Software, ComputerSoftware})
