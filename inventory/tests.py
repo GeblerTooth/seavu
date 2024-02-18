@@ -1,5 +1,5 @@
-from django.test import TestCase, Client
-from django.contrib.auth import get_user_model
+from django.test import TestCase
+from django.contrib.auth import get_user_model, get_user
 
 User = get_user_model()
 
@@ -39,13 +39,13 @@ class Auth(TestCase):
     def test_login(self):
         self.assertTrue(self.client.login(username=self.test_user_name, password=self.test_user_password))
         response = self.client.get('/')
-        self.assertEqual(str(response.context.get('user')), self.test_user_name)
+        self.assertTrue(get_user(self.client).is_authenticated)
 
     def test_logout(self):
         self.client.login(username=self.test_user_name, password=self.test_user_password)
         self.client.logout()
         response = self.client.get('/login')
-        self.assertEqual(response.context.get('user'), None)
+        self.assertFalse(get_user(self.client).is_authenticated)
 
     def test_home_redirect_for_login_required(self):
         response = self.client.get('/')
