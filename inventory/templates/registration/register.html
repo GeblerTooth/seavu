@@ -1,0 +1,20 @@
+{% extends "inventory/base.html" %} {% block title %}Register | Seavu{% endblock %}
+
+{% block content %}
+
+{% for field, errors in form.errors.items %}
+    <ul>
+    {% for error in errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+
+<form method="post">
+{% csrf_token %}
+{{ user_form }}
+{{ employee_form }}
+<button type="submit">Login</button>
+</form>
+
+{% endblock %}
