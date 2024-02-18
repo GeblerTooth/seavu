@@ -30,6 +30,6 @@ class Software(models.Model):
     company_requisite = models.BooleanField()
     has_license = models.BooleanField()
 
-class ComputerSoftware(models.Model): # Join table for Computer and Software
+class ComputerSoftware(models.Model): # Join table for Computer and Software.
     computer_id = models.ForeignKey("Computer", on_delete=models.CASCADE)
     software_id = models.ForeignKey("Software", on_delete=models.CASCADE)

@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
-from django.contrib import messages
 
 from .forms import UserRegisterForm, EmployeeRegisterForm
 from .models import Computer
@@ -19,8 +18,6 @@ def login(request):
         if user is not None:
             login(request, user)
             return redirect('/')
-        else:
-            messages.error(request, "Username or password is incorrect.")
     elif request.user.is_authenticated:
         return redirect('/')
     else:
