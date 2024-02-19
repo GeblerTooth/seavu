@@ -5,7 +5,7 @@ from datetime import date
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    occupation = models.PositiveSmallIntegerField(choices={0: "Full", 1: "Part", 2: "Contractor", 3: "Volunteer", 4: "Other"})
+    occupation = models.PositiveSmallIntegerField(choices={0: "Full", 1: "Part", 2: "Contractor", 3: "Volunteer", 4: "Other"}, blank=True, null=True)
     department = models.CharField(max_length=128, blank=True, null=True)
 
 class Computer(models.Model):
@@ -17,12 +17,12 @@ class Computer(models.Model):
     model = models.CharField(max_length=256)
     serial_number = models.CharField(max_length=128, blank=True, null=True)
     tag_number = models.CharField(max_length=128, blank=True, null=True)
-    category = models.PositiveIntegerField(choices={0: "PC", 1: "Laptop", 2: "Mini PC", 3: "SBC", 4: "All-in-One PC", 5: "Server", 6: "NAS", 7: "Other"})
+    category = models.PositiveSmallIntegerField(choices={0: "PC", 1: "Laptop", 2: "Mini PC", 3: "SBC", 4: "All-in-One PC", 5: "Server", 6: "NAS", 7: "Other"})
     date_of_purchase = models.DateField(default=date.today, blank=True, null=True)
     memory_gb = models.PositiveIntegerField(blank=True, null=True)
     storage_gb = models.PositiveIntegerField(blank=True, null=True)
     cores = models.PositiveSmallIntegerField(blank=True, null=True)
-    clock_speed_ghz = models.PositiveSmallIntegerField(blank=True, null=True)
+    clock_speed_ghz = models.FloatField(blank=True, null=True)
     gpu = models.CharField(max_length=256, blank=True, null=True)
 
 class Software(models.Model):
