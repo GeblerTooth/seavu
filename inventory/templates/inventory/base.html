@@ -1,23 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'inventory/base.css' %}">
     <title>{% block title %}Seavu{% endblock %}</title>
+    <form id='logout-form' action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+    </form>
 </head>
-<form id='logout-form' action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-</form>
-<nav id="navbar">
-    <div id="logo">Seavu</div>
-    <ul id="menu">
-        <li><a href="{% url 'index' %}">Account</a></li>
-        {% if user.is_authenticated %}
-        <li><a href="javascript:{}" onclick="document.getElementById('logout-form').submit();">Logout</a></li>
-        {% endif %}
-    </ul>
-</nav>
 <body>
-    <div id="main">{% block content %}{% endblock %}</div>
+    <nav class="navbar">
+        <ul class="navbar-nav">
+            <li class="navbar-brand">SEAVU</li>
+            <li class="navbar-item"><a href="{% url 'index' %}"><span class="material-symbols-outlined navbar-symbol">dashboard</span><span class="link-text">Dashboard</span></a></li>
+            <li class="navbar-item"><a href="{% url 'inventory' %}"><span class="material-symbols-outlined navbar-symbol">inventory_2</span><span class="link-text">Inventory</span></a></li>
+            <li class="navbar-item"><a href="{% url 'software' %}"><span class="material-symbols-outlined navbar-symbol">sdk</span><span class="link-text">Software</span></a></li>
+            <li class="navbar-item"><a href="{% url 'licences' %}"><span class="material-symbols-outlined navbar-symbol">inventory</span><span class="link-text">Licences</span></a></li>
+            {% if user.is_authenticated %}
+            <li class="navbar-item logout"><a href="javascript:{}" onclick="document.getElementById('logout-form').submit();"><span class="material-symbols-outlined navbar-symbol">logout</span><span class="link-text">Logout</span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <main>{% block content %}{% endblock %}</main>
 </body>
 </html>
