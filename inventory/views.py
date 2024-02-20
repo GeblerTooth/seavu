@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
+from django.http import HttpResponse
 
 from .forms import UserRegisterForm, EmployeeRegisterForm
 from .models import Computer
@@ -10,6 +11,15 @@ from .models import Computer
 def index(request):
     computer_list = Computer.objects.all()
     return render(request, "inventory/index.html", {"computer_list": computer_list})
+
+def inventory(request):
+    return HttpResponse("Hello from Inventory.")
+
+def software(request):
+    return HttpResponse("Hello from Software.")
+
+def licences(request):
+    return HttpResponse("Hello from Licences.")
 
 def login(request):
     if request.method == "POST":
