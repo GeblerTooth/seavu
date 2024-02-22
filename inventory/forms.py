@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Employee, Computer
+from .models import Employee, Computer, Software
 
 class UserRegisterForm(UserCreationForm):
 
@@ -19,4 +19,10 @@ class ComputerForm(forms.ModelForm):
     
     class Meta:
         model = Computer
+        fields = '__all__'
+
+class SoftwareForm(forms.ModelForm):
+    
+    class Meta:
+        model = Software
         fields = '__all__'
