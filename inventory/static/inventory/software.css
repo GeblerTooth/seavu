@@ -11,12 +11,12 @@
     font-variation-settings: 'OPSZ' 25;
 }
 
-.add-computer.material-symbols-outlined {
+.add-software.material-symbols-outlined {
     font-size: 30px;
     font-variation-settings: 'OPSZ' 30;
 }
 
-.inventory-table {
+.software-table {
     width: 100%;
     border-collapse: collapse;
     margin: 25px 0;
@@ -25,17 +25,17 @@
     overflow: hidden;
 }
 
-.inventory-table thead tr {
+.software-table thead tr {
     background-color: #ddd;
     text-align: left;
     font-weight: bold;
 }
 
-.inventory-table th, .inventory-table td {
+.software-table th, .software-table td {
     padding: 12px 15px;
 }
 
-.inventory-table tbody tr {
+.software-table tbody tr {
     border-bottom: 1px solid #ddd;
 
     /* Taken from Amit Walia https://codepen.io/amitwalia23/pen/jrOVBL */
@@ -44,15 +44,15 @@
     transition: background 500ms;
 }
 
-.inventory-table tbody tr:hover {
+.software-table tbody tr:hover {
     background-position: 100% calc(100% + 1px);
 }
 
-.inventory-table tbody tr:last-of-type {
+.software-table tbody tr:last-of-type {
     border-bottom: 2px solid #ddd;
 }
 
-.inventory-table tbody tr:last-of-type:hover {
+.software-table tbody tr:last-of-type:hover {
     /* Taken from Amit Walia https://codepen.io/amitwalia23/pen/jrOVBL */
     background-position: 100% calc(100% + 2px);
 }

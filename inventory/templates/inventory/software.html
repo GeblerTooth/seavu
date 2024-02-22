@@ -1,0 +1,39 @@
+{% extends 'inventory/base.html' %} {% block title %}Software | Seavu{% endblock %}
+{% load static %}
+{% block extrahead %}<link rel="stylesheet" href="{% static 'inventory/software.css' %}">{% endblock %}
+{% block content %}
+<h1>Software</h1>
+<a href="{% url 'add-software' %}"><span class="add-software material-symbols-outlined">add</span></a>
+    <table class="software-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Company Requisite?</th>
+                <th>Has Licence?</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if software_list %}
+                {% for software in software_list %}
+                    <tr>
+                        <td>{{ software.name }}</td>
+                        <td>{{ software.company_requisite }}</td>
+                        <td>{{ software.has_licence }}</td>
+                        <td>
+                            <a class="action" href="{% url 'inspect-software' software_id=software.id %}"><span class="material-symbols-outlined">list</span></a>
+                            <a class="action" href="{% url 'delete-software' software_id=software.id %}"><span class="material-symbols-outlined">delete</span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}
