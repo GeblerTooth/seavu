@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate
 from django.forms.models import model_to_dict
 from django.http import HttpResponse
 
-from .forms import UserRegisterForm, EmployeeRegisterForm, ComputerForm
-from .models import Computer
+from .forms import UserRegisterForm, EmployeeRegisterForm, ComputerForm, SoftwareForm
+from .models import Computer, Software
 
 @login_required()
 def index(request):
@@ -25,9 +25,7 @@ def delete_computer(request, computer_id):
 
 @login_required()
 def inspect_computer(request, computer_id):
-    import sys
     computer = model_to_dict(Computer.objects.get(id=computer_id))
-    print(str(computer), file=sys.stderr)
     return render(request, "inventory/inspect_computer.html", {"computer": computer})
 
 @login_required()
@@ -42,7 +40,29 @@ def add_computer(request):
 
 @login_required()
 def software(request):
-    return HttpResponse("Hello from Software.")
+    software_list = Software.objects.all()
+    return render(request, "inventory/software.html", {"software_list": software_list})
+
+@login_required()
+def delete_software(request, software_id):
+    software = Software.objects.get(id=software_id)
+    software.delete()
+    return redirect('software')
+
+@login_required()
+def inspect_software(request, software_id):
+    software = model_to_dict(Software.objects.get(id=software_id))
+    return render(request, "inventory/inspect_software.html", {"software": software})
+
+@login_required()
+def add_software(request):
+    if request.method == "POST":
+        form = SoftwareForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = SoftwareForm()
+    return render(request, "inventory/add_software.html", {"form": form})
 
 @login_required()
 def licences(request):
