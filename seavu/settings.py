@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "inventory",
+    "inventory.apps.InventoryConfig",
 ]
 
 MIDDLEWARE = [
@@ -193,5 +193,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login'
-
-DEBUG = True
