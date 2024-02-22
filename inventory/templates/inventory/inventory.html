@@ -1,9 +1,9 @@
-{% extends 'inventory/base.html' %} {% block title %}Home | Seavu{% endblock %}
+{% extends 'inventory/base.html' %} {% block title %}Inventory | Seavu{% endblock %}
 {% load static %}
 {% block extrahead %}<link rel="stylesheet" href="{% static 'inventory/inventory.css' %}">{% endblock %}
 {% block content %}
 <h1>Inventory</h1>
-<a href="{% url 'add-computer' %}"><span class="material-symbols-outlined add-computer">add</span></a>
+<a href="{% url 'add-computer' %}"><span class="add-computer material-symbols-outlined">add</span></a>
     <table class="inventory-table">
         <thead>
             <tr>
@@ -35,13 +35,14 @@
                         <td>{{ computer.category }}</td>
                         <td>{{ computer.date_of_purchase }}</td>
                         <td>
-                            <a href="{% url 'inspect-computer' computer_id=computer.id %}"><span class="material-symbols-outlined inspect-computer">edit</span></a>
-                            <a href="{% url 'delete-computer' computer_id=computer.id %}"><span class="material-symbols-outlined delete-computer">delete</span></a>
+                            <a class="action" href="{% url 'inspect-computer' computer_id=computer.id %}"><span class="material-symbols-outlined">list</span></a>
+                            <a class="action" href="{% url 'delete-computer' computer_id=computer.id %}"><span class="material-symbols-outlined">delete</span></a>
                         </td>
                     </tr>
                 {% endfor %}
             {% else %}
                 <tr>
+                    <td> --- </td>
                     <td> --- </td>
                     <td> --- </td>
                     <td> --- </td>

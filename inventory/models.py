@@ -28,7 +28,7 @@ class Computer(models.Model):
 class Software(models.Model):
     name = models.CharField(max_length=256)
     company_requisite = models.BooleanField()
-    has_license = models.BooleanField()
+    has_licence = models.BooleanField()
 
 class ComputerSoftware(models.Model): # Join table for Computer and Software.
     computer_id = models.ForeignKey("Computer", on_delete=models.CASCADE)

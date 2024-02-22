@@ -1,0 +1,14 @@
+{% extends "inventory/base.html" %} {% block title %}{{ software.name }} | Seavu{% endblock %}
+{% load static %}
+{% block extrahead %}<link rel="stylesheet" href="{% static 'inventory/inspect_software.css' %}">{% endblock %}
+{% block content %}
+<h1>{{ software.name }}</h1>
+<table class="software-table">
+    {% for field, value in software.items %}
+        <tr>
+            <th>{{ field }}</th>
+            <td>{{ value }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
