@@ -6,7 +6,7 @@ venv/
 # Django files
 staticfiles/
 db.sqlite3
-migrations/
+# migrations/
 
 # macOS files
 .DS_Store
