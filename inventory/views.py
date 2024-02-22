@@ -34,6 +34,7 @@ def add_computer(request):
         form = ComputerForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('inventory')
     else:
         form = ComputerForm()
     return render(request, "inventory/add_computer.html", {"form": form})
@@ -60,6 +61,7 @@ def add_software(request):
         form = SoftwareForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('software')
     else:
         form = SoftwareForm()
     return render(request, "inventory/add_software.html", {"form": form})
