@@ -2,13 +2,4 @@
 {% block title %}Home | Seavu{% endblock %}
 {% block content %}
 <h1>Welcome {{ user.get_username }}.</h1>
-{% if computer_list %}
-    <ul>
-    {% for computer in computer_list %}
-        <li>{{ computer.name }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No computers are available.</p>
-{% endif %}
 {% endblock %}

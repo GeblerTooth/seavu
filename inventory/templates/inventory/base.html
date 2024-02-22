@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'inventory/base.css' %}">
-    <title>{% block title %}Seavu{% endblock %}</title>
+    {% block extrahead %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
     <form id='logout-form' action="{% url 'logout' %}" method="post">
         {% csrf_token %}
     </form>
