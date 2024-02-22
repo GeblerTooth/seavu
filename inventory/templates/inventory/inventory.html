@@ -1,0 +1,59 @@
+{% extends 'inventory/base.html' %} {% block title %}Home | Seavu{% endblock %}
+{% load static %}
+{% block extrahead %}<link rel="stylesheet" href="{% static 'inventory/inventory.css' %}">{% endblock %}
+{% block content %}
+<h1>Inventory</h1>
+<a href="{% url 'add-computer' %}"><span class="material-symbols-outlined add-computer">add</span></a>
+    <table class="inventory-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>User</th>
+                <th>Location</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Tag</th>
+                <th>Serial</th>
+                <th>Category</th>
+                <th>DOP</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if computer_list %}
+                {% for computer in computer_list %}
+                    <tr>
+                        <td>{{ computer.name }}</td>
+                        <td>{{ computer.status }}</td>
+                        <td>{{ computer.user }}</td>
+                        <td>{{ computer.location }}</td>
+                        <td>{{ computer.make }}</td>
+                        <td>{{ computer.model }}</td>
+                        <td>{{ computer.tag_number }}</td>
+                        <td>{{ computer.serial_number }}</td>
+                        <td>{{ computer.category }}</td>
+                        <td>{{ computer.date_of_purchase }}</td>
+                        <td>
+                            <a href="{% url 'inspect-computer' computer_id=computer.id %}"><span class="material-symbols-outlined inspect-computer">edit</span></a>
+                            <a href="{% url 'delete-computer' computer_id=computer.id %}"><span class="material-symbols-outlined delete-computer">delete</span></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                    <td> --- </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

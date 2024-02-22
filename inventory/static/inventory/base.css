@@ -2,13 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 
 :root {
+    box-sizing: border-box;
     font-size: 16px;
     font-family: "Work Sans", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    --bg-primary: #1e66c9;
-    --bg-seconardy: #c4fa05;
+    --palette-first: rgb(34, 87, 122);
+    --palette-second: rgb(56, 163, 165);
+    --palette-third: rgb(87, 204, 153);
+    --palette-fourth: rgb(128, 237, 153);
+    --palette-fifth: rgb(199, 249, 204);
 }
 
 body {
@@ -18,16 +22,16 @@ body {
 
 main {
     margin-left: 4.5rem;
-    padding-top: 1rem;
-    padding-left: 2rem;
+    padding: 0.2rem 2rem;
 }
 
 .navbar {
     width: 4.5rem;
     height: 100vh;
     position: fixed;
-    background-color: var(--bg-primary);
+    background-color: var(--palette-first);
     transition: width 200ms ease;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
 }
 
 .navbar-nav {
@@ -53,7 +57,7 @@ main {
     font-family: "Righteous", sans-serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 18px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     height: 4.5rem;
