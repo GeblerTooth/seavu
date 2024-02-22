@@ -93,6 +93,7 @@ def register(request):
             employee_form.instance.user = user_instance # Set user instance as employee foreign key.
             user_form.save()
             employee_form.save()
+            return redirect('login')
     else:
         user_form = UserRegisterForm()
         employee_form = EmployeeRegisterForm()

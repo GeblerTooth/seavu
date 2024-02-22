@@ -1,20 +1,53 @@
-{% extends "inventory/base.html" %} {% block title %}Register | Seavu{% endblock %}
-
-{% block content %}
-
-{% for field, errors in form.errors.items %}
-    <ul>
-    {% for error in errors %}
-        <li>{{ error }}</li>
-    {% endfor %}
-    </ul>
-{% endfor %}
-
-<form method="post">
-{% csrf_token %}
-{{ user_form }}
-{{ employee_form }}
-<button type="submit">Login</button>
-</form>
-
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'registration/register.css' %}">
+    <title>Register SEAVU</title>
+</head>
+<body>
+    <main>
+        <form class="register-fieldset" method="post" action="{% url 'register' %}">
+            <h1 class="brand">SEAVU</h1>
+            {% csrf_token %}
+            <div class="register-fieldset-errors">{{ user_form.non_field_errors }}</div>
+            <div class="register-fieldset-errors">{{ employee_form.non_field_errors }}</div>
+            <div class="register-field-errors">{{ user_form.email.errors }}</div>
+            <div class="register-field">
+                <input type="text" name="email" placeholder="Email"><span class="material-symbols-outlined">alternate_email</span>
+            </div>
+            <div class="register-field-errors">{{ user_form.username.errors }}</div>
+            <div class="register-field">
+                <input type="text" name="username" placeholder="Username"><span class="material-symbols-outlined">person</span>
+            </div>
+            <div class="register-field-errors">{{ user_form.password1.errors }}</div>
+            <div class="register-field">
+                <input type="password" name="password1" placeholder="Password"><span class="material-symbols-outlined">lock</span>
+            </div>
+            <div class="register-field-errors">{{ user_form.password2.errors }}</div>
+            <div class="register-field">
+                <input type="password" name="password2" placeholder="Confirm Password"><span class="material-symbols-outlined">lock_reset</span>
+            </div>
+            <div class="register-field-errors">{{ employee_form.occupation.errors }}</div>
+            <div class="register-field">
+                <select name="occupation" id="occupation">
+                    <option value="Full">Full</option>
+                    <option value="Part">Part</option>
+                    <option value="Contractor">Contractor</option>
+                    <option value="Volunteer">Volunteer</option>
+                    <option value="Other">Other</option>
+                </select>
+                <span class="material-symbols-outlined">work</span>
+            </div>
+            <div class="register-field-errors">{{ employee_form.department.errors }}</div>
+            <div class="register-field">
+                <input type="text" name="department" placeholder="Department"><span class="material-symbols-outlined">detection_and_zone</span>
+            </div>
+            <button class="register-btn" type="submit">Register</button>
+        </form>
+    </main>
+</body>
+</html>
