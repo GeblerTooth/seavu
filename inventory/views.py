@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 from django.forms.models import model_to_dict
-from django.http import HttpResponse
 
 from .forms import UserRegisterForm, EmployeeRegisterForm, ComputerForm, SoftwareForm
 from .models import Computer, Software
@@ -68,7 +67,7 @@ def add_software(request):
 
 @login_required()
 def licences(request):
-    return HttpResponse("Hello from Licences.")
+     return render(request, "inventory/licences.html")
 
 def login(request):
     if request.method == "POST":
