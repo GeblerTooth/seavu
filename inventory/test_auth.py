@@ -2,18 +2,21 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model, get_user
 
 User = get_user_model()
-
 from .models import Employee
 
 from secrets import token_urlsafe
 
-class Auth(TestCase):
+def create_test_user(test_user_name):
+    User = get_user_model()
+    test_user_password = token_urlsafe(16) # Random URL safe password.
+    test_user = User.objects.create_user(username=test_user_name, password=test_user_password)
+    test_user.save()
+    return test_user_name, test_user_password
+
+class TestAuthentication(TestCase):
 
     def setUp(self):
-        self.test_user_name = 'test_user_name'
-        self.test_user_password = token_urlsafe(16) # Random URL safe password.
-        test_user = User.objects.create_user(username=self.test_user_name, password=self.test_user_password)
-        test_user.save()
+        self.test_user_name, self.test_user_password = create_test_user('test_user_name')
 
     def test_register(self):
         register_test_password = token_urlsafe(16) # Random URL safe password.
@@ -24,10 +27,10 @@ class Auth(TestCase):
             'last_name': 'register_test_last_name',
             'password1': register_test_password,
             'password2': register_test_password,
-            'occupation': 1,
+            'occupation': "Other",
             'department': 'testing'
         })
-        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, '/login/') # Test for redirect after sucessful registration.
         # Test both User and Employee created as OneToOne relationship.
         self.assertEqual(User.objects.all().count(), 2)
         self.assertNotEqual(User.objects.filter(id=2).first(), None)
@@ -42,7 +45,6 @@ class Auth(TestCase):
         self.assertTrue(get_user(self.client).is_authenticated)
 
     def test_logout(self):
-        self.client.login(username=self.test_user_name, password=self.test_user_password)
         self.client.logout()
         response = self.client.get('/login')
         self.assertFalse(get_user(self.client).is_authenticated)
