@@ -1,0 +1,30 @@
+{% extends "inventory/base.html" %} {% block title %}Add Software | Seavu{% endblock %}
+{% load static %}
+{% block extrahead %}<link rel="stylesheet" href="{% static 'inventory/update_software.css' %}">{% endblock %}
+{% block content %}
+<h1>Add Software</h1>
+<div class="con-fieldset-software">
+    <form class="fieldset-software" method="post" action="{% url 'add-software' %}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="field-software">
+            {{ form.name.errors }}
+            <label for="id_name">Name</label>
+            {{ form.name }}
+        </div>
+        <div class="field-software">
+            {{ form.company_requisite.errors }}
+            <label for="id_company_requisite">Company Requisite?</label>
+            {{ form.company_requisite }}
+        </div>
+        <div class="field-software">
+            {{ form.has_licence.errors }}
+            <label for="id_has_licence">Has Licence?</label>
+            {{ form.has_licence }}
+        </div>
+        <div class="field-software">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

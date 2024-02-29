@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
@@ -23,9 +23,15 @@ def delete_computer(request, computer_id):
     return redirect('inventory')
 
 @login_required()
-def inspect_computer(request, computer_id):
-    computer = model_to_dict(Computer.objects.get(id=computer_id))
-    return render(request, "inventory/inspect_computer.html", {"computer": computer})
+def update_computer(request, computer_id):
+    computer = get_object_or_404(Computer, id=computer_id)
+    if request.method == "POST":
+        form = ComputerForm(request.POST, instance=computer)
+        if form.is_valid():
+            form.save()
+    else:
+        form = ComputerForm(instance=computer)
+    return render(request, "inventory/update_computer.html", {"form": form})
 
 @login_required()
 def add_computer(request):
@@ -50,9 +56,15 @@ def delete_software(request, software_id):
     return redirect('software')
 
 @login_required()
-def inspect_software(request, software_id):
-    software = model_to_dict(Software.objects.get(id=software_id))
-    return render(request, "inventory/inspect_software.html", {"software": software})
+def update_software(request, software_id):
+    software = get_object_or_404(Software, id=software_id)
+    if request.method == "POST":
+        form = SoftwareForm(request.POST, instance=software)
+        if form.is_valid():
+            form.save()
+    else:
+        form = SoftwareForm(instance=software)
+    return render(request, "inventory/update_software.html", {"form": form})
 
 @login_required()
 def add_software(request):

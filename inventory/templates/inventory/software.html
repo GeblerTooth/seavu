@@ -21,7 +21,7 @@
                         <td>{{ software.company_requisite }}</td>
                         <td>{{ software.has_licence }}</td>
                         <td>
-                            <a class="action" href="{% url 'inspect-software' software_id=software.id %}"><span class="material-symbols-outlined">list</span></a>
+                            <a class="action" href="{% url 'update-software' software_id=software.id %}"><span class="material-symbols-outlined">list</span></a>
                             <a class="action" href="{% url 'delete-software' software_id=software.id %}"><span class="material-symbols-outlined">delete</span></a>
                         </td>
                     </tr>
