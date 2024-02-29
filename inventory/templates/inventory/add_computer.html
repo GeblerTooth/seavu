@@ -38,6 +38,11 @@
             {{ form.model }}
         </div>
         <div class="field-computer">
+            {{ form.software.errors }}
+            <label for="id_software">Software</label>
+            {{ form.software }}
+        </div>
+        <div class="field-computer">
             {{ form.serial_number.errors }}
             <label for="id_serial_number">Serial Number</label>
             {{ form.serial_number }}

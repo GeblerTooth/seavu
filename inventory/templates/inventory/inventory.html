@@ -10,13 +10,9 @@
                 <th>Name</th>
                 <th>Status</th>
                 <th>User</th>
-                <th>Location</th>
                 <th>Make</th>
                 <th>Model</th>
-                <th>Tag</th>
-                <th>Serial</th>
                 <th>Category</th>
-                <th>DOP</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,13 +23,9 @@
                         <td>{{ computer.name }}</td>
                         <td>{{ computer.status }}</td>
                         <td>{{ computer.user }}</td>
-                        <td>{{ computer.location }}</td>
                         <td>{{ computer.make }}</td>
                         <td>{{ computer.model }}</td>
-                        <td>{{ computer.tag_number }}</td>
-                        <td>{{ computer.serial_number }}</td>
                         <td>{{ computer.category }}</td>
-                        <td>{{ computer.date_of_purchase }}</td>
                         <td>
                             <a class="action" href="{% url 'inspect-computer' computer_id=computer.id %}"><span class="material-symbols-outlined">list</span></a>
                             <a class="action" href="{% url 'delete-computer' computer_id=computer.id %}"><span class="material-symbols-outlined">delete</span></a>
@@ -42,10 +34,6 @@
                 {% endfor %}
             {% else %}
                 <tr>
-                    <td> --- </td>
-                    <td> --- </td>
-                    <td> --- </td>
-                    <td> --- </td>
                     <td> --- </td>
                     <td> --- </td>
                     <td> --- </td>
