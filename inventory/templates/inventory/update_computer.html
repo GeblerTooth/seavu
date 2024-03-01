@@ -1,0 +1,95 @@
+{% extends "inventory/base.html" %} {% block title %}Add Computer | Seavu{% endblock %}
+{% load static %}
+{% block extrahead %}<link rel="stylesheet" href="{% static 'inventory/update_computer.css' %}">{% endblock %}
+{% block content %}
+<h1>Add Computer</h1>
+<div class="con-fieldset-computer">
+    <form class="fieldset-computer" method="post" action="{% url 'add-computer' %}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="field-computer">
+            {{ form.name.errors }}
+            <label for="id_name">Name</label>
+            {{ form.name }}
+        </div>
+        <div class="field-computer">
+            {{ form.status.errors }}
+            <label for="id_status">Status</label>
+            {{ form.status }}
+        </div>
+        <div class="field-computer">
+            {{ form.user.errors }}
+            <label for="id_user">User</label>
+            {{ form.user }}
+        </div>
+        <div class="field-computer">
+            {{ form.location.errors }}
+            <label for="id_location">Location</label>
+            {{ form.location }}
+        </div>
+        <div class="field-computer">
+            {{ form.make.errors }}
+            <label for="id_make">Make</label>
+            {{ form.make }}
+        </div>
+        <div class="field-computer">
+            {{ form.model.errors }}
+            <label for="id_model">Model</label>
+            {{ form.model }}
+        </div>
+        <div class="field-computer">
+            {{ form.software.errors }}
+            <label for="id_software">Software</label>
+            {{ form.software }}
+        </div>
+        <div class="field-computer">
+            {{ form.serial_number.errors }}
+            <label for="id_serial_number">Serial Number</label>
+            {{ form.serial_number }}
+        </div>
+        <div class="field-computer">
+            {{ form.tag_number.errors }}
+            <label for="id_tag_number">Tag Number</label>
+            {{ form.tag_number }}
+        </div>
+        <div class="field-computer">
+            {{ form.category.errors }}
+            <label for="id_category">Category</label>
+            {{ form.category }}
+        </div>
+        <div class="field-computer">
+            {{ form.date_of_purchase.errors }}
+            <label for="id_date_of_purchase">Purchase Date</label>
+            {{ form.date_of_purchase }}
+        </div>
+        <div class="field-computer">
+            {{ form.memory_gb.errors }}
+            <label for="id_memory_gb">Memory (GB)</label>
+            {{ form.memory_gb }}
+        </div>
+        <div class="field-computer">
+            {{ form.storage_gb.errors }}
+            <label for="id_storage_gb">Storage (GB)</label>
+            {{ form.storage_gb }}
+        </div>
+        <div class="field-computer">
+            {{ form.cores.errors }}
+            <label for="id_cores">No. CPU Cores</label>
+            {{ form.cores }}
+        </div>
+        <div class="field-computer">
+            {{ form.clock_speed_ghz.errors }}
+            <label for="id_clock_speed_ghz">CPU Clock Speed (GHz)</label>
+            {{ form.clock_speed_ghz }}
+        </div>
+        <div class="field-computer">
+            {{ form.gpu.errors }}
+            <label for="id_gpu">GPU</label>
+            {{ form.gpu }}
+        </div>
+        <div class="field-computer">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
