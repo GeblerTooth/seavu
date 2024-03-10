@@ -3,10 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 
-from .models import Employee, Computer, Software
-from .forms import UserRegisterForm, EmployeeRegisterForm, ComputerForm, SoftwareForm
+from .models import Computer, Software
 
-class TestForms(TestCase):
+class TestViews(TestCase):
 
     def setUp(self):
         self.test_user = User.objects.create_user(username='testuser', password=make_password('testpassword'))
@@ -72,8 +71,8 @@ class TestForms(TestCase):
 
     def test_delete_computer_view_function(self):
         response = self.client.post(reverse('delete-computer', kwargs={'computer_id': 1}))
-        self.assertEqual(Computer.objects.all().count(), 1)
-        self.assertRaises(Computer.DoesNotExist, Computer.objects.get, id=1)
+        self.assertEqual(Computer.objects.all().count(), 2)
+        self.assertEqual(response.status_code, 302)
 
     def test_software_view_status_code(self):
         response = self.client.get(reverse('software'))
@@ -125,8 +124,8 @@ class TestForms(TestCase):
 
     def test_delete_software_view_function(self):
         response = self.client.post(reverse('delete-software', kwargs={'software_id': 1}))
-        self.assertEqual(Software.objects.all().count(), 1)
-        self.assertRaises(Software.DoesNotExist, Software.objects.get, id=1)
+        self.assertEqual(Software.objects.all().count(), 2)
+        self.assertEqual(response.status_code, 302)
 
     def test_licences_view_status_code(self):
         response = self.client.get(reverse('licences'))
@@ -135,3 +134,25 @@ class TestForms(TestCase):
     def test_licences_view_template(self):
         response = self.client.get(reverse('licences'))
         self.assertTemplateUsed(response, 'inventory/licences.html')
+    
+class TestAdminViews(TestCase):
+
+    def setUp(self):
+        self.test_user = User.objects.create_superuser(username='testsuperuser', password=make_password('testpassword'))
+        self.client.force_login(self.test_user)
+
+        self.computer1 = Computer.objects.create(name='Computer 1', status='Active', make='Tester', model='1000', category='PC')
+        self.computer2 = Computer.objects.create(name='Computer 2', status='Active', make='Tester', model='1000', category='PC')
+
+        self.software1 = Software.objects.create(name='Software 1', company_requisite=True, has_licence=False)
+        self.software2 = Software.objects.create(name='Software 2', company_requisite=False, has_licence=True)
+
+    def test_delete_computer_view_function(self):
+        response = self.client.post(reverse('delete-computer', kwargs={'computer_id': 1}))
+        self.assertEqual(Computer.objects.all().count(), 1)
+        self.assertRaises(Computer.DoesNotExist, Computer.objects.get, id=1)
+
+    def test_delete_software_view_function(self):
+        response = self.client.post(reverse('delete-software', kwargs={'software_id': 1}))
+        self.assertEqual(Software.objects.all().count(), 1)
+        self.assertRaises(Software.DoesNotExist, Software.objects.get, id=1)
