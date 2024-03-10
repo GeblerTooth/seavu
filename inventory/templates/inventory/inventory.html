@@ -26,10 +26,13 @@
                         <td>{{ computer.make }}</td>
                         <td>{{ computer.model }}</td>
                         <td>{{ computer.category }}</td>
-                        <td>
+                        <td class="actions">
                             <a class="action" href="{% url 'update-computer' computer_id=computer.id %}"><span class="material-symbols-outlined">list</span></a>
                             {% if request.user.is_staff %}
-                                <a class="action" href="{% url 'delete-computer' computer_id=computer.id %}"><span class="material-symbols-outlined">delete</span></a>
+                                <form id="form-{{computer.id}}" action="{% url 'delete-computer' computer_id=computer.id %}" method="post">
+                                    {% csrf_token %}
+                                </form>
+                                <button class="action" type="submit" form="form-{{computer.id}}" onclick="return confirm('Are you sure you want to delete {{computer.name}}?')"><span class="material-symbols-outlined">delete</span></button>
                             {% endif %}
                         </td>
                     </tr>

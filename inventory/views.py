@@ -48,7 +48,7 @@ def update_computer(request, computer_id):
 def delete_computer(request, computer_id):
     computer = Computer.objects.get(id=computer_id)
     computer.delete()
-    return redirect('inventory')
+    return redirect('/inventory')
 
 @login_required()
 @require_http_methods(['GET', 'POST'])
@@ -85,7 +85,7 @@ def update_software(request, software_id):
 def delete_software(request, software_id):
     software = Software.objects.get(id=software_id)
     software.delete()
-    return redirect('software')
+    return redirect('/software')
 
 @login_required()
 @require_http_methods(['GET'])

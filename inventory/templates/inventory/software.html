@@ -20,10 +20,13 @@
                         <td>{{ software.name }}</td>
                         <td>{{ software.company_requisite }}</td>
                         <td>{{ software.has_licence }}</td>
-                        <td>
+                        <td class="actions">
                             <a class="action" href="{% url 'update-software' software_id=software.id %}"><span class="material-symbols-outlined">list</span></a>
                             {% if request.user.is_staff %}
-                                <a class="action" href="{% url 'delete-software' software_id=software.id %}"><span class="material-symbols-outlined">delete</span></a>
+                                <form id="form-{{software.id}}" action="{% url 'delete-software' software_id=software.id %}" method="post">
+                                    {% csrf_token %}
+                                </form>
+                                <button class="action" type="submit" form="form-{{software.id}}" onclick="return confirm('Are you sure you want to delete {{software.name}}?')"><span class="material-symbols-outlined">delete</span></button>
                             {% endif %}
                         </td>
                     </tr>

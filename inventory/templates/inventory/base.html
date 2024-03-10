@@ -37,13 +37,13 @@
                 </a>
             </div>
             {% if user.is_authenticated %}
-            <div class="divider"></div>
-            <div class="links">
-                <a class="link" href="javascript:{}" onclick="document.getElementById('logout-form').submit();">
-                    <span class="material-symbols-outlined">logout</span>
-                    <span>Logout</span>
-                </a>
-            </div>
+                <div class="divider"></div>
+                <div class="links">
+                    <button class="link logout" type="submit" form="logout-form" onclick="return confirm('Are you sure you want to logout?')">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Logout</span>
+                    </button>
+                </div>
             {% endif %}
         </div>
     </div>
