@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
 from django.views.decorators.http import require_http_methods
+from django.contrib.admin.views.decorators import staff_member_required
 
 from .forms import UserRegisterForm, EmployeeRegisterForm, ComputerForm, SoftwareForm
 from .models import Computer, Software
@@ -42,7 +43,7 @@ def update_computer(request, computer_id):
         form = ComputerForm(instance=computer)
     return render(request, "inventory/update_computer.html", {"form": form})
 
-@login_required()
+@staff_member_required()
 @require_http_methods(['POST'])
 def delete_computer(request, computer_id):
     computer = Computer.objects.get(id=computer_id)
@@ -79,7 +80,7 @@ def update_software(request, software_id):
         form = SoftwareForm(instance=software)
     return render(request, "inventory/update_software.html", {"form": form})
 
-@login_required()
+@staff_member_required()
 @require_http_methods(['POST'])
 def delete_software(request, software_id):
     software = Software.objects.get(id=software_id)
