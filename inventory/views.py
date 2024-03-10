@@ -2,38 +2,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
-from django.forms.models import model_to_dict
+from django.views.decorators.http import require_http_methods
 
 from .forms import UserRegisterForm, EmployeeRegisterForm, ComputerForm, SoftwareForm
 from .models import Computer, Software
 
 @login_required()
+@require_http_methods(['GET'])
 def index(request):
     return render(request, "inventory/index.html")
 
 @login_required()
-def inventory(request):
-    computer_list = Computer.objects.all()
-    return render(request, "inventory/inventory.html", {"computer_list": computer_list})
-
-@login_required()
-def delete_computer(request, computer_id):
-    computer = Computer.objects.get(id=computer_id)
-    computer.delete()
-    return redirect('inventory')
-
-@login_required()
-def update_computer(request, computer_id):
-    computer = get_object_or_404(Computer, id=computer_id)
-    if request.method == "POST":
-        form = ComputerForm(request.POST, instance=computer)
-        if form.is_valid():
-            form.save()
-    else:
-        form = ComputerForm(instance=computer)
-    return render(request, "inventory/update_computer.html", {"form": form})
-
-@login_required()
+@require_http_methods(['GET', 'POST'])
 def add_computer(request):
     if request.method == "POST":
         form = ComputerForm(request.POST)
@@ -45,28 +25,32 @@ def add_computer(request):
     return render(request, "inventory/add_computer.html", {"form": form})
 
 @login_required()
-def software(request):
-    software_list = Software.objects.all()
-    return render(request, "inventory/software.html", {"software_list": software_list})
+@require_http_methods(['GET'])
+def inventory(request):
+    computer_list = Computer.objects.all()
+    return render(request, "inventory/inventory.html", {"computer_list": computer_list})
 
 @login_required()
-def delete_software(request, software_id):
-    software = Software.objects.get(id=software_id)
-    software.delete()
-    return redirect('software')
-
-@login_required()
-def update_software(request, software_id):
-    software = get_object_or_404(Software, id=software_id)
+@require_http_methods(['GET', 'POST'])
+def update_computer(request, computer_id):
+    computer = get_object_or_404(Computer, id=computer_id)
     if request.method == "POST":
-        form = SoftwareForm(request.POST, instance=software)
+        form = ComputerForm(request.POST, instance=computer)
         if form.is_valid():
             form.save()
     else:
-        form = SoftwareForm(instance=software)
-    return render(request, "inventory/update_software.html", {"form": form})
+        form = ComputerForm(instance=computer)
+    return render(request, "inventory/update_computer.html", {"form": form})
 
 @login_required()
+@require_http_methods(['POST'])
+def delete_computer(request, computer_id):
+    computer = Computer.objects.get(id=computer_id)
+    computer.delete()
+    return redirect('inventory')
+
+@login_required()
+@require_http_methods(['GET', 'POST'])
 def add_software(request):
     if request.method == "POST":
         form = SoftwareForm(request.POST)
@@ -78,9 +62,36 @@ def add_software(request):
     return render(request, "inventory/add_software.html", {"form": form})
 
 @login_required()
+@require_http_methods(['GET'])
+def software(request):
+    software_list = Software.objects.all()
+    return render(request, "inventory/software.html", {"software_list": software_list})
+
+@login_required()
+@require_http_methods(['GET', 'POST'])
+def update_software(request, software_id):
+    software = get_object_or_404(Software, id=software_id)
+    if request.method == "POST":
+        form = SoftwareForm(request.POST, instance=software)
+        if form.is_valid():
+            form.save()
+    else:
+        form = SoftwareForm(instance=software)
+    return render(request, "inventory/update_software.html", {"form": form})
+
+@login_required()
+@require_http_methods(['POST'])
+def delete_software(request, software_id):
+    software = Software.objects.get(id=software_id)
+    software.delete()
+    return redirect('software')
+
+@login_required()
+@require_http_methods(['GET'])
 def licences(request):
      return render(request, "inventory/licences.html")
 
+@require_http_methods(['GET', 'POST'])
 def login(request):
     if request.method == "POST":
         form = AuthenticationForm(request.POST)
@@ -94,6 +105,7 @@ def login(request):
         form = AuthenticationForm()
         return render(request, "registration/login.html", {"form": form})
 
+@require_http_methods(['GET', 'POST'])
 def register(request):
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
