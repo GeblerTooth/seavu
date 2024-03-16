@@ -1,17 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.views.decorators.http import require_http_methods
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
+from django.urls import reverse
 
-from .forms import UserRegisterForm, EmployeeRegisterForm, ComputerForm, SoftwareForm
+from .forms import UserRegisterForm, AuthenticationForm, EmployeeRegisterForm, ComputerForm, SoftwareForm
 from .models import Computer, Software
-
-@login_required()
-@require_http_methods(['GET'])
-def index(request):
-    return render(request, "inventory/index.html")
 
 @login_required()
 @require_http_methods(['GET', 'POST'])
@@ -20,6 +16,7 @@ def add_computer(request):
         form = ComputerForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, f"{request.POST.get('name')} was added successfully.")
             return redirect('inventory')
     else:
         form = ComputerForm()
@@ -39,6 +36,7 @@ def update_computer(request, computer_id):
         form = ComputerForm(request.POST, instance=computer)
         if form.is_valid():
             form.save()
+            messages.success(request, f"{request.POST.get('name')} was updated successfully.")
     else:
         form = ComputerForm(instance=computer)
     return render(request, "inventory/update_computer.html", {"form": form})
@@ -48,7 +46,8 @@ def update_computer(request, computer_id):
 def delete_computer(request, computer_id):
     computer = Computer.objects.get(id=computer_id)
     computer.delete()
-    return redirect('/inventory')
+    messages.success(request, f"{computer} was deleted successfully.")
+    return redirect('inventory')
 
 @login_required()
 @require_http_methods(['GET', 'POST'])
@@ -57,6 +56,7 @@ def add_software(request):
         form = SoftwareForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, f"{request.POST.get('name')} was added successfully.")
             return redirect('software')
     else:
         form = SoftwareForm()
@@ -76,6 +76,7 @@ def update_software(request, software_id):
         form = SoftwareForm(request.POST, instance=software)
         if form.is_valid():
             form.save()
+            messages.success(request, f"{request.POST.get('name')} was updated successfully.")
     else:
         form = SoftwareForm(instance=software)
     return render(request, "inventory/update_software.html", {"form": form})
@@ -85,39 +86,44 @@ def update_software(request, software_id):
 def delete_software(request, software_id):
     software = Software.objects.get(id=software_id)
     software.delete()
-    return redirect('/software')
-
-@login_required()
-@require_http_methods(['GET'])
-def licences(request):
-     return render(request, "inventory/licences.html")
+    messages.success(request, f"{software} was deleted successfully.")
+    return redirect('software')
 
 @require_http_methods(['GET', 'POST'])
-def login(request):
+def user_login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request.POST)
-        user = authenticate(request, username=form.cleaned_data.get('username'), password=form.cleaned_data.get('password'))
-        if user is not None:
-            login(request, user)
-            return redirect('/')
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = authenticate(request, username=form.cleaned_data.get('username'), password=form.cleaned_data.get('password'))
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"Welcome {user}.")
+                return redirect('inventory')
     elif request.user.is_authenticated:
-        return redirect('/')
+        return redirect('inventory')
     else:
-        form = AuthenticationForm()
-        return render(request, "registration/login.html", {"form": form})
+        form = AuthenticationForm(request)
+    return render(request, "registration/login.html", {"form": form})
 
 @require_http_methods(['GET', 'POST'])
-def register(request):
+def user_registration(request):
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
         employee_form = EmployeeRegisterForm(request.POST)
         if user_form.is_valid() and employee_form.is_valid():
-            # Automatically asign the user to the employee.
             user_instance = user_form.save(commit=False) # Get user instance by saving a non-commit.
             employee_form.instance.user = user_instance # Set user instance as employee foreign key.
             user_form.save()
             employee_form.save()
-            return redirect('login')
+            messages.success(request, f"Sucessfully registered.")
+            # Automatically login user if possible.
+            user = authenticate(request, username=user_form.cleaned_data.get('username'), password=user_form.cleaned_data.get('password1'))
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"Welcome {user}.")
+                return redirect('inventory')
+            else:
+                return redirect('login')
     else:
         user_form = UserRegisterForm()
         employee_form = EmployeeRegisterForm()

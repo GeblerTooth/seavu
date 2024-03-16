@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Employee, Computer, Software
 
@@ -13,7 +13,13 @@ class EmployeeRegisterForm(forms.ModelForm):
 
     class Meta:
         model = Employee
-        exclude = ('user',) # Exclude user OneToOneField.
+        exclude = ('user',) # Exclude user OneToOneField for forms as its assigned in view logic.
+
+class AuthenticationForm(AuthenticationForm):
+
+    class Meta:
+        model = User
+        fields = '__all__'
 
 class ComputerForm(forms.ModelForm):
     

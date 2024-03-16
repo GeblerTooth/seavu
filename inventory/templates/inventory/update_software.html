@@ -4,7 +4,7 @@
 {% block content %}
 <h1>Add Software</h1>
 <div class="con-fieldset-software">
-    <form class="fieldset-software" method="post" action="{% url 'add-software' %}">
+    <form class="fieldset-software" method="post" action="{% url 'update-software' software_id=form.instance.id %}">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="field-software">

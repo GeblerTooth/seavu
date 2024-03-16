@@ -192,5 +192,5 @@ WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "/login/"
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/inventory'
 LOGOUT_REDIRECT_URL = '/login'

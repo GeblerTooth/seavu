@@ -10,7 +10,7 @@
 </head>
 <body>
     <main>
-        <form class="login-fieldset" method="post" action="{% url 'login' %}">
+        <form class="login-fieldset" method="post">
             <h1 class="brand">SEAVU</h1>
             {% csrf_token %}
             <div class="login-fieldset-errors">{{ form.non_field_errors }}</div>
@@ -25,7 +25,7 @@
             <div class="login-forgot">
                 <a href="">Forgot password?</a>
             </div>
-            <button class="login-btn" type="submit">Login</button>
+            <button class="login-btn" type="submit" for="login-fieldset">Login</button>
             <div class="login-register">
                 <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
             </div>

@@ -18,42 +18,62 @@ body {
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    display: table;
-    content: '';
-    clear: none;
+}
+
+.wrapper {
+    display: flex;
 }
 
 main {
-    position: absolute;
-    top: 0px;
-    left: 60px;
-    width: calc(100% - 60px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-main .wrapper {
-    padding: 1rem 2rem;
+.message-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.message-wrapper * {
+    flex: 1;
+    padding: .7rem;
+}
+
+.message-wrapper .success {
+    background-color: lightgreen;
+    color: green;
+}
+
+.message-wrapper .info {
+    background-color: lightgrey;
+    color: darkslategrey;
+}
+
+.message-wrapper .warning, .message-wrapper .error {
+    background-color: lightcoral;
+    color: red;
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: .5rem 2rem;
 }
 
 .sidebar {
     position: sticky;
-    top: 0px;
-    left: 0px;
+    overflow: hidden;
+    top: 0;
     width: 60px;
     height: 100vh;
     background: var(--palette-first);
-    overflow: hidden;
     transition: all 500ms ease-in-out;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-    z-index: 1;
 }
 
 .sidebar:hover {
     width: 250px;
-}
-
-.sidebar .wrapper {
-    width: 250px;
-    height: 100%;
 }
 
 .sidebar .logo {

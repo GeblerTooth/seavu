@@ -1,14 +1,17 @@
 from django.test import TestCase
+from django.contrib.auth import get_user
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 
-from .models import Computer, Software
+from secrets import token_urlsafe
+
+from .models import Employee, Computer, Software
 
 class TestViews(TestCase):
 
     def setUp(self):
-        self.test_user = User.objects.create_user(username='testuser', password=make_password('testpassword'))
+        self.test_username, self.test_password = ('test_user', token_urlsafe(16))
+        self.test_user = User.objects.create_user(username=self.test_username, password=self.test_password)
         self.client.force_login(self.test_user)
 
         self.computer1 = Computer.objects.create(name='Computer 1', status='Active', make='Tester', model='1000', category='PC')
@@ -69,7 +72,7 @@ class TestViews(TestCase):
         self.assertEqual(Computer.objects.get(id=1).model, '1500')
         self.assertEqual(response.status_code, 200)
 
-    def test_delete_computer_view_function(self):
+    def test_delete_computer_view_function_fails(self):
         response = self.client.post(reverse('delete-computer', kwargs={'computer_id': 1}))
         self.assertEqual(Computer.objects.all().count(), 2)
         self.assertEqual(response.status_code, 302)
@@ -122,23 +125,81 @@ class TestViews(TestCase):
         self.assertEqual(Software.objects.get(id=1).has_licence, True)
         self.assertEqual(response.status_code, 200)
 
-    def test_delete_software_view_function(self):
+    def test_delete_software_view_function_fails(self):
         response = self.client.post(reverse('delete-software', kwargs={'software_id': 1}))
         self.assertEqual(Software.objects.all().count(), 2)
         self.assertEqual(response.status_code, 302)
 
-    def test_licences_view_status_code(self):
-        response = self.client.get(reverse('licences'))
+class TestAuthViews(TestCase):
+
+    def setUp(self):
+        self.test_username, self.test_password = ('test_user', token_urlsafe(16))
+        self.test_user = User.objects.create_user(username=self.test_username, password=self.test_password)
+
+    def test_login_view_status_code(self):
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_view_redirects_user(self):
+        self.client.force_login(self.test_user)
+        response = self.client.get(reverse('login'))
+        self.assertRedirects(response, reverse('inventory'))
+
+    def test_login_view_template(self):
+        response = self.client.get(reverse('login'))
+        self.assertTemplateUsed(response, 'registration/login.html')
+
+    def test_login_view_context(self):
+        response = self.client.get(reverse('login'))
+        self.assertIn('form', response.context)
+
+    def test_login_view_function(self):
+        response = self.client.post(reverse('login'), {'username': self.test_username, 'password': self.test_password})
+        self.assertRedirects(response, reverse('inventory'))
+        self.assertTrue(get_user(self.client).is_authenticated)
+
+    def test_register_view_status_code(self):
+        response = self.client.get(reverse('register'))
         self.assertEqual(response.status_code, 200)
     
-    def test_licences_view_template(self):
-        response = self.client.get(reverse('licences'))
-        self.assertTemplateUsed(response, 'inventory/licences.html')
+    def test_register_view_template(self):
+        response = self.client.get(reverse('register'))
+        self.assertTemplateUsed(response,'registration/register.html')
     
+    def test_register_view_context(self):
+        response = self.client.get(reverse('register'))
+        self.assertIn('user_form', response.context)
+        self.assertIn('employee_form', response.context)
+
+    def test_register_view_function(self):
+        username, password = ('johndoe', token_urlsafe(16))
+        response = self.client.post(reverse('register'), {
+            'username': username,
+            'password1': password,
+            'password2': password,
+            'email': 'johndoe@example.com',
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'occupation': 'Other',
+            'department': 'Testing',
+        })
+        self.assertRedirects(response, reverse('inventory')) # Test automatic login successful.
+        user = get_user(self.client)
+        self.assertEqual(User.objects.get(id=user.id), user)
+        try:
+            Employee.objects.get(user=user)
+        except:
+            self.fail('Employee was not created during registration.')
+
+    def test_logout(self):
+        self.client.force_login(self.test_user)
+        self.client.logout()
+        self.assertFalse(get_user(self.client).is_authenticated)
+
 class TestAdminViews(TestCase):
 
     def setUp(self):
-        self.test_user = User.objects.create_superuser(username='testsuperuser', password=make_password('testpassword'))
+        self.test_user = User.objects.create_superuser(username='test_superuser', password=token_urlsafe(16))
         self.client.force_login(self.test_user)
 
         self.computer1 = Computer.objects.create(name='Computer 1', status='Active', make='Tester', model='1000', category='PC')

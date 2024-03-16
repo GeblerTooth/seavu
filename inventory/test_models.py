@@ -1,12 +1,16 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 
-User = get_user_model()
+from secrets import token_urlsafe
+
 from .models import Employee, Software, Computer
 
 class TestModels(TestCase):
     def setUp(self):
-        self.test_user = User.objects.create(username='test_user', password='test_user_password')
+        self.test_username, self.test_password = ('test_user', token_urlsafe(16))
+        self.test_user = User.objects.create_user(username=self.test_username, password=self.test_password)
+        self.client.force_login(self.test_user)
+
         self.test_employee = Employee.objects.create(user=self.test_user, occupation='Other', department='Testing')
         self.test_software = Software.objects.create(name='test_software', company_requisite=True, has_licence=True)
         self.test_computer = Computer.objects.create(name='test_computer', status='Active', make='Tester', model='1000')
