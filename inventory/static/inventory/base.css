@@ -64,6 +64,7 @@ main {
 .sidebar {
     position: sticky;
     overflow: hidden;
+    flex-shrink: 0;
     top: 0;
     width: 60px;
     height: 100vh;
