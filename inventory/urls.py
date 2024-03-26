@@ -14,5 +14,5 @@ urlpatterns = [
     path("software/<int:software_id>/delete", views.delete_software, name="delete-software"),
     path("login", views.user_login, name="login"),
     path("register", views.user_registration, name="register"),
-    path("", RedirectView.as_view(pattern_name="inventory")) # Auto redirect index to inventory.
+    path("", RedirectView.as_view(pattern_name="inventory")) # Auto redirect index to inventory https://docs.djangoproject.com/en/5.0/ref/class-based-views/base/#redirectview.
 ]

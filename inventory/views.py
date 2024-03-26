@@ -130,16 +130,20 @@ def user_login(request):
 
 @require_http_methods(['GET', 'POST'])
 def user_registration(request):
-    """Django view for registering a User (and Employee)."""
+    """
+    Django view for registering a User (and Employee).
+
+    (Django Software Foundation, 2024b)
+    """
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
         employee_form = EmployeeRegisterForm(request.POST)
         if user_form.is_valid() and employee_form.is_valid():
-            user_instance = user_form.save()
-            employee_instance = employee_form.save(commit=False) # Get employee instance by saving a non-commit.
-            employee_instance.user = user_instance # Set user instance as employee foreign key.
-            employee_instance.save()
-            employee_form.save_m2m()
+            user_instance = user_form.save() # Retrieve the user instance.
+            employee_instance = employee_form.save(commit=False) # Retrieve employee instance with a non-commit due to m2m relationship.
+            employee_instance.user = user_instance # Set employee user reference to user instance.
+            employee_instance.save() # Save altered employee instance to db.
+            employee_form.save_m2m() # Save employee form.
             logger.info(f"{user_instance.pk}:{user_instance.username} sucessfully registered.")
             messages.success(request, f"Sucessfully registered.")
             # Automatically login user if possible.
