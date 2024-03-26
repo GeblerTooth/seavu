@@ -34,6 +34,10 @@
             <div class="register-field">
                 <input type="password" name="password2" placeholder="Confirm Password"><span class="material-symbols-outlined">lock_reset</span>
             </div>
+            <div class="register-field-errors">{{ user_form.is_staff.errors }}</div>
+            <div class="register-field">
+                <label for="is_staff">Staff?</label><input type="checkbox" name="is_staff"><span class="material-symbols-outlined">engineering</span>
+            </div>
             <div class="register-field-errors">{{ employee_form.occupation.errors }}</div>
             <div class="register-field">
                 <select name="occupation" id="occupation">
