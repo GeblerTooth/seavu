@@ -135,10 +135,11 @@ def user_registration(request):
         user_form = UserRegisterForm(request.POST)
         employee_form = EmployeeRegisterForm(request.POST)
         if user_form.is_valid() and employee_form.is_valid():
-            user_instance = user_form.save(commit=False) # Get user instance by saving a non-commit.
-            employee_form.instance.user = user_instance # Set user instance as employee foreign key.
-            user_form.save()
-            employee_form.save()
+            user_instance = user_form.save()
+            employee_instance = employee_form.save(commit=False) # Get employee instance by saving a non-commit.
+            employee_instance.user = user_instance # Set user instance as employee foreign key.
+            employee_instance.save()
+            employee_form.save_m2m()
             logger.info(f"{user_instance.pk}:{user_instance.username} sucessfully registered.")
             messages.success(request, f"Sucessfully registered.")
             # Automatically login user if possible.
