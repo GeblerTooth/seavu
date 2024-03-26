@@ -4,18 +4,15 @@ from django.contrib.auth.models import User
 
 from .models import Employee, Computer, Software
 
-# Define an inline admin descriptor for Employee model
-# which acts a bit like a singleton
+# Define an inline admin descriptor for Employee model which acts like a singleton
 class EmployeeInline(admin.StackedInline):
     model = Employee
     can_delete = False
     verbose_name_plural = "employee"
 
-
 # Define a new User admin
 class UserAdmin(BaseUserAdmin):
     inlines = [EmployeeInline]
-
 
 # Re-register UserAdmin
 admin.site.unregister(User)

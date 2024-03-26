@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from datetime import date
 
-class Employee(models.Model):
+class Employee(models.Model): # Extension class for User model.
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     occupation = models.CharField(max_length=128, choices={"Full-time": "Full-time", "Part-time": "Part-time", "Contractor": "Contractor", "Volunteer": "Volunteer", "Other": "Other"}, blank=True, null=True)
     department = models.CharField(max_length=128, blank=True, null=True)
