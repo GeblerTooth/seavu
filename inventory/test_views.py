@@ -178,8 +178,7 @@ class TestAuthViews(TestCase):
             'password1': password,
             'password2': password,
             'email': 'johndoe@example.com',
-            'first_name': 'John',
-            'last_name': 'Doe',
+            'is_staff': False,
             'occupation': 'Other',
             'department': 'Testing',
         })
